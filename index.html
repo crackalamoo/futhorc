@@ -29,6 +29,17 @@ td {
   color: #333333;
   font-family: "Apple Symbols", serif;
 }
+button {
+  margin: 5px;
+  padding: 4px;
+  text-align: center;
+  background-color: #B0B0B0;
+  color: #333333;
+  font-size: 18px;
+}
+button,h2 {
+  font-family: "Times", serif;
+}
 </style>
 </head>
 
@@ -36,6 +47,7 @@ td {
 <h1>ᚠᚢᚦᚩᚱᚳ:᛫ᚫᛝᚸᛚᚩ-ᛋᚫᛉᛇᚾ᛫ᚱᚣᚾᛁᛣ᛫ᛣᛁᛒᚩᚱᛞ</h1>
 <h2>Futhorc: Anglo-Saxon runic keyboard</h2>
 <textarea autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" id="text"></textarea>
+<br><button onclick="copyText()">Copy | ᛣᛟᛈᛁ</button>
 
 <form name="settings">
 Interpunct space: <input type="checkbox" name="space" checked>
@@ -125,6 +137,14 @@ window.setInterval(function() {
 
   text.value = t;
 }, 5);
+
+function copyText() {
+  text.select();
+  text.setSelectionRange(0, 99999);
+  document.execCommand("copy");
+  alert("Copied text");
+  text.setSelectionRange(0, 0);
+}
 </script>
 </body>
 </html>
