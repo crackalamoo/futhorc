@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>ᚠᚢᚦᚩᚱᚳ</title>
+<style>
+body {
+  margin: min(100px, 5%);
+  background-color: #DDDDDD;
+}
+textarea,h1 {
+  font-family: "Apple Symbols", serif;
+}
+textarea {
+  width: 90%;
+  margin: auto;
+  min-height: 300px;
+  font-size: 24px;
+  background-color: #B0B0B0;
+  color: #333333;
+}
+tr {
+  margin: auto;
+}
+td {
+  margin: 5px;
+  padding: 2px;
+  text-align: center;
+  background-color: #B0B0B0;
+  color: #333333;
+  font-family: "Apple Symbols", serif;
+}
+</style>
+</head>
+
+<body>
+<h1>ᚠᚢᚦᚩᚱᚳ:᛫ᚫᛝᚸᛚᚩ-ᛋᚫᛉᛇᚾ᛫ᚱᚣᚾᛁᛣ᛫ᛣᛁᛒᚩᚱᛞ</h1>
+<h2>Futhorc: Anglo-Saxon runic keyboard</h2>
+<textarea spellcheck="false" id="text"></textarea>
+
+<form name="settings">
+Interpunct space: <input type="checkbox" name="space" checked>
+</form>
+
+<table>
+<tr>
+  <td>Q | ᛢ</td><td>W | ᚹ</td><td>E | ᛇ</td><td>R | ᚱ</td><td>T | ᛏ</td><td>Y | ᛄ</td><td>U | ᚢ</td><td>I | ᛁ</td><td>O | ᛟ</td><td>P | ᛈ</td>
+</tr><tr>
+  <td>A | ᚫ</td><td>S | ᛋ</td><td>D | ᛞ</td><td>F | ᚠ</td><td>G | ᚸ</td><td>H | ᚻ</td><td>J | ᚷ</td><td>K | ᛣ</td><td>L | ᛚ</td>
+</tr><tr>
+  <td>Z | ᛋ</td><td>X | ᛉ</td><td>C | ᚳ</td><td>V | ᚡ</td><td>B | ᛒ</td><td>N | ᚾ</td><td>M | ᛗ</td>
+</tr>
+<tr>
+  <td>TH | ᚦ</td><td>DH | ᚧ</td><td>NG | ᛝ</td><td>ST | ᛥ</td>
+</tr><tr>
+  <td>OO | ᚩ</td><td>AH | ᚪ</td><td>AU | ᚪᚹ</td><td>EE | ᛖ</td><td>UU | ᚣ</td><td>II | ᛡ</td><td>AA | ᛠ</td>
+</tr>
+</table>
+
+Conjunct example: ST→ᛥ, S.T→ᛋᛏ<br>
+This keyboard is not case-sensitive.
+
+<script>
+var text = document.getElementById("text");
+window.setInterval(function() {
+  var t = text.value;
+  t = t.toLowerCase();
+
+  // compound vowels
+  t = t.replace("ᛟo", "ᚩ");
+  t = t.replace("ᛟ.o", "ᛟᛟ");
+  t = t.replace("ᚫh", "ᚪ");
+  t = t.replace("ᚫ.h", "ᚫᚻ");
+  t = t.replace("ᚫu", "ᚪᚹ");
+  t = t.replace("ᚫ.u", "ᚫᚢ");
+  t = t.replace("ᛇe", "ᛖ");
+  t = t.replace("ᛇ.e", "ᛇᛇ");
+  t = t.replace("ᚢu", "ᚣ");
+  t = t.replace("ᚢ.u", "ᚢᚢ");
+  t = t.replace("ᛁi", "ᛡ");
+  t = t.replace("ᛁ.i", "ᛁᛁ");
+  t = t.replace("ᚫa", "ᛠ");
+  t = t.replace("ᚫ.a", "ᚫᚫ");
+
+  // compound consonants
+  t = t.replace("ᛏh", "ᚦ");
+  t = t.replace("ᛏ.h", "ᛏᚻ");
+  t = t.replace("ᛞh", "ᚧ");
+  t = t.replace("ᛞ.h", "ᛞᚻ");
+  t = t.replace("ᚾg", "ᛝ");
+  t = t.replace("ᚾ.g", "ᚾᚸ");
+  t = t.replace("ᛋt", "ᛥ");
+  t = t.replace("ᛋ.t", "ᛋᛏ");
+
+  // basic
+  t = t.replace("q", "ᛢ");
+  t = t.replace("w", "ᚹ");
+  t = t.replace("e", "ᛇ");
+  t = t.replace("r", "ᚱ");
+  t = t.replace("t", "ᛏ");
+  t = t.replace("y", "ᛄ");
+  t = t.replace("u", "ᚢ");
+  t = t.replace("i", "ᛁ");
+  t = t.replace("o", "ᛟ");
+  t = t.replace("p", "ᛈ");
+  t = t.replace("a", "ᚫ");
+  t = t.replace("s", "ᛋ");
+  t = t.replace("d", "ᛞ");
+  t = t.replace("f", "ᚠ");
+  t = t.replace("g", "ᚸ");
+  t = t.replace("h", "ᚻ");
+  t = t.replace("j", "ᚷ");
+  t = t.replace("k", "ᛣ");
+  t = t.replace("l", "ᛚ");
+  t = t.replace("z", "ᛋ");
+  t = t.replace("x", "ᛉ");
+  t = t.replace("c", "ᚳ");
+  t = t.replace("v", "ᚡ");
+  t = t.replace("b", "ᛒ");
+  t = t.replace("n", "ᚾ");
+  t = t.replace("m", "ᛗ");
+
+  if (document.settings.space.checked) {
+    t = t.replace(" ", "᛫");
+  }
+
+  text.value = t;
+}, 5);
+</script>
+</body>
+</html>
