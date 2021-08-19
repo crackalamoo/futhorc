@@ -21,13 +21,18 @@ textarea {
 tr {
   margin: auto;
 }
-td {
+td,th {
   margin: 5px;
   padding: 2px;
   text-align: center;
   background-color: #B0B0B0;
   color: #333333;
+}
+td {
   font-family: "Apple Symbols", serif;
+}
+th {
+  font-weight: bold;
 }
 button {
   margin: 5px;
@@ -37,15 +42,27 @@ button {
   color: #333333;
   font-size: 18px;
 }
-button,h2 {
+button,h2,th {
   font-family: "Times", serif;
 }
+table.ipa tr td {
+  font-family: "Times New Roman";
+}
+a {
+  color: #0000B0;
+  text-decoration: none;
+}
+a:hover {
+  color: #00B0F0;
+}
 </style>
+<meta charset="UTF-8">
 </head>
 
 <body>
-<h1>ᚠᚢᚦᚩᚱᚳ:᛫ᚫᛝᚸᛚᚩ-ᛋᚫᛉᛇᚾ᛫ᚱᚣᚾᛁᛣ᛫ᛣᛁᛒᚩᚱᛞ</h1>
+<h1>ᚠᚢᚦᚩᚱᚳ: ᚫᛝᚸᛚᚩ-ᛋᚫᛉᛇᚾ᛫ᚱᚣᚾᛁᛣ᛫ᛣᛁᛒᚩᚱᛞ</h1>
 <h2>Futhorc: Anglo-Saxon runic keyboard</h2>
+<h3><a href="http://harysdalvi.com">Dalvi | ᛞᚪᛚᚠᛁ</a></h3>
 <textarea autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" id="text"></textarea>
 <br>
 <button onclick="copyText()">Copy | ᛣᛟᛈᛁ</button>
@@ -64,7 +81,7 @@ Interpunct space: <input type="checkbox" name="space" checked>
   <td>Z | ᛋ</td><td>X | ᛉ</td><td>C | ᚳ</td><td>V | ᚡ</td><td>B | ᛒ</td><td>N | ᚾ</td><td>M | ᛗ</td>
 </tr>
 <tr>
-  <td>TH | ᚦ</td><td>DH | ᚧ</td><td>SH | ᛋᚳ</td><td>NG | ᛝ</td><td>NK | ᛝᛣ</td><td>ST | ᛥ</td>
+  <td>TH | ᚦ</td><td>DH | ᚧ</td><td>NG | ᛝ</td><td>NK | ᛝᛣ</td><td>ST | ᛥ</td>
 </tr><tr>
   <td>OO | ᚩ</td><td>AA | ᚪ</td><td>AR | ᚪᚱ</td><td>AU | ᚪᚹ</td><td>EE | ᛖ</td><td>OU,UU | ᚣ</td><td>II | ᛡ</td><td>AY | ᛠ</td>
 </tr>
@@ -77,7 +94,286 @@ Conjunct example: ST→ᛥ, S.T→ᛋᛏ<br>
 This keyboard is not case-sensitive.
 
 <br>
-<h1>ᛗᛡ᛫ᛗᛟᛞᛇᚱᚾ᛫ᛁᛝᚸᛚᛁᛋᚳ᛫ᚱᚣᚾ᛫ᚾᛠᛗᛋ</h1>
+
+<h1>ᚻᚪᚹ᛫ᛏᚣ᛫ᚱᛡᛏ᛫ᛁᚾ᛫ᚱᚣᚾᛋ</h1>
+<h2>How to Write in Runes</h2>
+
+<p>First of all, forget everything you know about English spelling.
+My system of Runic spelling is (mostly) phonetic, unlike J. R. R. Tolkien's
+system, which mostly substitutes the non-phonetic English spelling system
+letter by letter. There are a few exceptions to this phonetic
+system, which I will explain later. First, here is a basic guide to
+writing modern English in my system of runes. I have included the
+sounds of American English as I speak it in IPA (the international
+phonetic alphabet), plus an example of this sound in a word,
+and finally the rune to represent that sound. I start with
+pure vowels, then diphthongs, and finally consonants. There is
+no distinction for vowel length.
+</p>
+<table class="ipa">
+<tr>
+  <th>IPA</th>
+  <th>Example</th>
+  <th>Rune</th>
+</tr>
+<tr>
+  <td>ɑ</td>
+  <td>ᚪ</td>
+  <td>f<strong>a</strong>r</td>
+</tr>
+<tr>
+  <td>ɒ</td>
+  <td>ᛟ</td>
+  <td>h<strong>o</strong>t</td>
+</tr>
+<tr>
+  <td>æ</td>
+  <td>ᚫ</td>
+  <td>h<strong>a</strong>t</td>
+</tr>
+<tr>
+  <td>ɛ</td>
+  <td>ᛖ</td>
+  <td>s<strong>e</strong>nd</td>
+</tr>
+<tr>
+  <td>ɪ</td>
+  <td>ᛁ</td>
+  <td>s<strong>i</strong>t</td>
+</tr>
+<tr>
+  <td>i</td>
+  <td>ᛁ</td>
+  <td>s<strong>ee</strong>d</td>
+</tr>
+<tr>
+  <td>ʊ</td>
+  <td>ᚣ</td>
+  <td>b<strong>oo</strong>k</td>
+</tr>
+<tr>
+  <td>u</td>
+  <td>ᚣ</td>
+  <td>f<strong>oo</strong>d</td>
+</tr>
+<tr>
+  <td>ʌ</td>
+  <td>ᚢ</td>
+  <td>f<strong>u</strong>n</td>
+</tr>
+<tr>
+  <td>ə</td>
+  <td>ᛇ</td>
+  <td><strong>a</strong>bout</td>
+</tr>
+<tr>
+  <td>ɜ</td>
+  <td>ᛇ</td>
+  <td>t<strong>u</strong>rn</td>
+</tr>
+<tr>
+  <td>eɪ</td>
+  <td>ᛠ</td>
+  <td>st<strong>ay</strong></td>
+</tr>
+<tr>
+  <td>aɪ</td>
+  <td>ᛡ</td>
+  <td>l<strong>ie</strong></td>
+</tr>
+<tr>
+  <td>aʊ</td>
+  <td>ᚪᚹ</td>
+  <td>f<strong>ou</strong>nd</td>
+</tr>
+<tr>
+  <td>oʊ</td>
+  <td>ᚩ</td>
+  <td>n<strong>o</strong></td>
+</tr>
+<tr>
+  <td>ɔɪ</td>
+  <td>ᚩᛁ</td>
+  <td>p<strong>oi</strong>nt</td>
+</tr>
+<tr>
+  <td>p</td>
+  <td>ᛈ</td>
+  <td><strong>p</strong>ot</td>
+</tr>
+<tr>
+  <td>b</td>
+  <td>ᛒ</td>
+  <td><strong>b</strong>oy</td>
+</tr>
+<tr>
+  <td>t</td>
+  <td>ᛏ</td>
+  <td><strong>t</strong>ime</td>
+</tr>
+<tr>
+  <td>d</td>
+  <td>ᛞ</td>
+  <td><strong>d</strong>og</td>
+</tr>
+<tr>
+  <td>k</td>
+  <td>ᛣ</td>
+  <td><strong>k</strong>ite</td>
+</tr>
+<tr>
+  <td>g</td>
+  <td>ᚸ</td>
+  <td><strong>g</strong>ame</td>
+</tr>
+<tr>
+  <td>tʃ</td>
+  <td>ᚳ</td>
+  <td><strong>ch</strong>eese</td>
+</tr>
+<tr>
+  <td>dʒ</td>
+  <td>ᚷ</td>
+  <td><strong>j</strong>og</td>
+</tr>
+<tr>
+  <td>f</td>
+  <td>ᚠ</td>
+  <td><strong>f</strong>ear</td>
+</tr>
+<tr>
+  <td>v</td>
+  <td>ᚠ</td>
+  <td><strong>v</strong>ine</td>
+</tr>
+<tr>
+  <td>θ</td>
+  <td>ᚦ</td>
+  <td><strong>th</strong>ing</td>
+</tr>
+<tr>
+  <td>ð</td>
+  <td>ᚦ</td>
+  <td><strong>th</strong>is</td>
+</tr>
+<tr>
+  <td>s</td>
+  <td>ᛋ</td>
+  <td><strong>s</strong>ee, lot<strong>s</strong></td>
+</tr>
+<tr>
+  <td>z</td>
+  <td>ᛋ</td>
+  <td><strong>z</strong>ebra, song<strong>s</strong></td>
+</tr>
+<tr>
+  <td>ʃ</td>
+  <td>ᛋᚻ</td>
+  <td><strong>sh</strong>are</td>
+</tr>
+<tr>
+  <td>ʒ</td>
+  <td>ᛋᚻ</td>
+  <td>mea<strong>s</strong>ure</td>
+</tr>
+<tr>
+  <td>h</td>
+  <td>ᚻ</td>
+  <td><strong>h</strong>ole</td>
+</tr>
+<tr>
+  <td>m</td>
+  <td>ᛗ</td>
+  <td><strong>m</strong>outh</td>
+</tr>
+<tr>
+  <td>n</td>
+  <td>ᚾ</td>
+  <td><strong>n</strong>ow</td>
+</tr>
+<tr>
+  <td>ŋ</td>
+  <td>ᛝ</td>
+  <td>ri<strong>ng</strong></td>
+</tr>
+<tr>
+  <td>j</td>
+  <td>ᛄ</td>
+  <td><strong>y</strong>ou</td>
+</tr>
+<tr>
+  <td>w</td>
+  <td>ᚹ</td>
+  <td><strong>w</strong>ind</td>
+</tr>
+<tr>
+  <td>ɹ</td>
+  <td>ᚱ</td>
+  <td><strong>r</strong>ain</td>
+</tr>
+<tr>
+  <td>l</td>
+  <td>ᛚ</td>
+  <td><strong>l</strong>ine</td>
+</tr>
+
+</table>
+
+<p>You may have noticed that some runes stand for more than one sound. There are
+a few other possible ambiguities. Here are some rules to clear that up.
+<ol>
+<li>Apostrophes and other punctuation marks are used just like in standard English.</li>
+<li>If there is ambiguity between /i/ and /ɪ/, use ᛁᛁ for /i/ and ᛁ for /ɪ/.
+So you have we'll/ᚹᛁ'ᛚ, will/ᚹᛁᛚ, wheel/ᚹᛁᛁᛚ. This applies even when "wheel"
+rather than "will" can be inferred from the context, since "will" is a word.
+The same context-independent idea applies for the following rules. Also note
+that if there is a proper noun that can be written with the "simpler" spelling
+(as in the table above) you don't have to worry about it. So "Sid" and "seed"
+are both spelled ᛋᛁᛞ, even though you would expect ᛋᛁᛁᛞ for "seed" if "Sid"
+were not a proper noun. Also note that ᛁᛁ may represent /iɪ/ as in
+being/ᛒᛁᛁᛝ.
+</li>
+<li>If there is ambiguity between /f/ and /v/, use ᚠ for /f/ and ᚡ for /v/.
+So you have live/ᛚᛁᚠ, leaf/ᛚᛁᛁᚠ, leave/ᛚᛁᛁᚡ, lives/ᛚᛁᚠᛋ, leaves/ᛚᛁᛁᚠᛋ. Note that
+rules apply in the order they are listed here in case of a conflict, as you
+can see here between "live" and "leaf".
+</li>
+<li>If there is ambiguity between /s/ and /z/, use ᛋᛋ for /s/ and ᛋ for /z/.
+So you have ones/ᚹᚢᚾᛋ, once/ᚹᚢᚾᛋᛋ.
+</li>
+<li>If there is ambiguity between /θ/ and /ð/, use ᚦ for /θ/ and ᚧ for /ð/.
+I can't think of any examples for this, this should be rare.
+</li>
+<li>"No" is spelled ᚾᚩ and "know" is spelled ᚾᚩᚹ.
+</li>
+<li>Words which use "tr" for /tʃɹ/ in standard English are spelled with ᛏᚱ, not ᚳᚱ.
+Similar for "dr" and /dʒɹ/. So you have truck/ᛏᚱᚢᛣ, draw/ᛞᚱᛟ.
+</li>
+<li>In fast speech, vowels are sometimes converted to schwas. This shouldn't
+be reflected in writing. So you have comma/ᛣᛟᛗᚪ (not ᛣᛟᛗᛇ), and
+remember/ᚱᛁᛗᛖᛗᛒᛇᚱ (not ᚱᛇᛗᛖᛗᛒᛇᚱ).
+</li>
+<li>Syllabic consonants are spelled with ᛇ before the consonant. So you
+have bottle/ᛒᛟᛏᛇᛚ.
+</li>
+<li>ᛝ strictly represents /ŋ/, not /ŋg/. So you have angle/ᚫᛝᚸᛇᛚ,
+not ᚫᛝᛇᛚ.
+</li>
+<li>ᛋ and ᛏ are written together as the ligature ᛥ as in stone/ᛥᚩᚾ.
+</li>
+<li>
+The name of this alphabet is written ᚠᚢᚦᚩᚱᚳ, but pronounced /fuθork/ like "FOO-thork"
+as if it were spelled ᚠᚣᚦᚩᚱᛣ.
+</li>
+<li>Ash is spelled ᚫᛋᚳ, not ᚫᛋᚻ. Fish is spelled ᚠᛁᛋᚳ, not ᚠᛁᛋᚻ. This extends to derived
+words too, so you have ashy/ᚫᛋᚳᛁ and fishing/ᚠᛁᛋᚳᛁᛝ.
+</li>
+</ol>
+</p>
+
+<br>
+
+<h1>ᛗᛡ᛫ᛗᛟᛞᛇᚱᚾ᛫ᛁᛝᚸᛚᛁᛋᚻ᛫ᚱᚣᚾ᛫ᚾᛠᛗᛋ</h1>
 <h2>My Modern English Rune Names</h2>
 <table>
 <tr>
@@ -252,8 +548,6 @@ window.setInterval(function() {
   t = t.replace("ᚾ.k", "ᚾᛣ");
   t = t.replace("ᛋt", "ᛥ");
   t = t.replace("ᛋ.t", "ᛋᛏ");
-  t = t.replace("ᛋh", "ᛋᚳ");
-  t = t.replace("ᛋ.h", "ᛋᚻ");
 
   // basic
   t = t.replace("q", "ᛢ");
@@ -287,8 +581,16 @@ window.setInterval(function() {
   t = t.replace("&", "⁊");
 
   if (document.settings.space.checked) {
-    t = t.replace(" ", "᛫");
+    t = t.replaceAll(" ", "᛫");
   }
+  t = t.replaceAll(":᛫", ": ");
+  t = t.replaceAll(",᛫", ", ");
+  t = t.replaceAll(";᛫", "; ");
+  t = t.replaceAll(".᛫", ". ");
+  t = t.replaceAll("!᛫", "! ");
+  t = t.replaceAll("?᛫", "? ");
+  t = t.replaceAll(")᛫", ") ");
+  t = t.replaceAll("᛫(", " (");
 
   text.value = t;
 }, 5);
