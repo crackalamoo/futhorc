@@ -83,9 +83,9 @@ Interpunct space: <input type="checkbox" name="space" checked>
 
 <table>
 <tr>
-  <td>Q | ᚳᚹ</td><td>W | ᚹ</td><td>E | ᛇ</td><td>R | ᚱ</td><td>T | ᛏ</td><td>Y | ᛄ</td><td>U | ᚢ</td><td>I | ᛁ</td><td>O | ᛟ</td><td>P | ᛈ</td>
+  <td>Q | ᛢ</td><td>W | ᚹ</td><td>E | ᛇ</td><td>R | ᚱ</td><td>T | ᛏ</td><td>Y | ᛄ</td><td>U | ᚢ</td><td>I | ᛁ</td><td>O | ᛟ</td><td>P | ᛈ</td>
 </tr><tr>
-  <td>A | ᚫ</td><td>S | ᛋ</td><td>D | ᛞ</td><td>F | ᚠ</td><td>G | ᚷ</td><td>H | ᚻ</td><td>J | ᚷ</td><td>K | ᚳ</td><td>L | ᛚ</td>
+  <td>A | ᚫ</td><td>S | ᛋ</td><td>D | ᛞ</td><td>F | ᚠ</td><td>G | ᚷ</td><td>H | ᚻ</td><td>J | ᚷᚻ</td><td>K | ᚳ</td><td>L | ᛚ</td>
 </tr><tr>
   <td>Z | ᛋ</td><td>X | ᛉ</td><td>C | ᚳ</td><td>V | ᚠ</td><td>B | ᛒ</td><td>N | ᚾ</td><td>M | ᛗ</td>
 </tr>
@@ -358,6 +358,7 @@ vanilla/ᚠᛇᚾᛁᛚᚪ.
 have bottle/ᛒᛟᛏᛇᛚ.
 </li>
 <li>ᛋ and ᛏ are optionally written together as the ligature ᛥ as in stone/ᛥᚩᚾ.
+  Likewise for ᚳᚹ becoming ᛢ.
 </li>
 <li>
 The name of this alphabet is written ᚠᚢᚦᚩᚱᚳ, but pronounced /fuθork/ like "FOO-thork"
@@ -462,7 +463,7 @@ as if it were spelled ᚠᚣᚦᚩᚱᚳ.
 </tr>
 <tr>
   <td>ᛈ</td>
-  <td>Page/ᛈᛠᚷ</td>
+  <td>Page/ᛈᚪᚷᚻ</td>
 </tr>
 <tr>
   <td>ᛉ</td>
@@ -525,6 +526,10 @@ as if it were spelled ᚠᚣᚦᚩᚱᚳ.
   <td>ᛥ</td>
   <td>Stone/ᛥᚩᚾ</td>
 </tr>
+<tr>
+  <td>ᛢ</td>
+  <td>Queen/ᛢᛁᛁᚾ</td>
+</tr>
 </table>
 
 <script>
@@ -572,7 +577,7 @@ function updateText() {
   t = t.replace("ᛋ.t", "ᛋᛏ");
 
   // basic
-  t = t.replace("q", "ᚳᚹ");
+  t = t.replace("q", "ᛢ");
   t = t.replace("w", "ᚹ");
   t = t.replace("e", "ᛇ");
   t = t.replace("r", "ᚱ");
@@ -588,7 +593,7 @@ function updateText() {
   t = t.replace("f", "ᚠ");
   t = t.replace("g", "ᚷ");
   t = t.replace("h", "ᚻ");
-  t = t.replace("j", "ᚷ");
+  t = t.replace("j", "ᚷᚻ");
   t = t.replace("k", "ᚳ");
   t = t.replace("l", "ᛚ");
   t = t.replace("z", "ᛋ");
