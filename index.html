@@ -598,7 +598,7 @@ function updateText() {
   t = t.replace("ᛋ.t", "ᛋᛏ");
 
   // final short vowels
-  const PUNCT = ['.',',',':',';','!','?',')'];
+  const PUNCT = ['. ',',',':',';','!','?',')']; // period requires space after to confirm it's not used to split a replacement
   for (const punct of PUNCT) {
     t = t.replaceAll(punct, ' '+punct);
   }
@@ -646,6 +646,7 @@ function updateText() {
   for (const punct of PUNCT) {
     t = t.replaceAll(punct+"᛫", punct+" ");
   }
+  t = t.replaceAll(".᛫",". ");
   t = t.replaceAll("᛫(", " (");
 
   text.value = t;
