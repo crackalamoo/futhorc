@@ -56,6 +56,9 @@ a {
 a:hover {
   color: #00B0F0;
 }
+#footer {
+  margin-block-start: 50px;
+}
 </style>
 <meta charset="UTF-8">
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-YPKKGJ4J3K"></script>
@@ -69,9 +72,12 @@ a:hover {
 </head>
 
 <body>
+<main>
+<header>
 <h1>ᚠᚢᚦᚩᚱᚳ: ᚫᛝᛚᚩ-ᛋᚫᛉᚢᚾ᛫ᚱᚣᚾᛁᚳ᛫ᚳᛁᛁᛒᚩᚱᛞ</h1>
 <h2>Futhorc: Anglo-Saxon runic keyboard</h2>
 <h3><a href="http://harysdalvi.com">Harys Dalvi | ᚻᚪᚱᛁᛋ ᛞᚪᛚᚠᛁ</a></h3>
+</header>
 <textarea autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" id="text"></textarea>
 <br>
 <button onclick="copyText()">Copy | ᚳᛟᛈᛁ</button>
@@ -105,7 +111,7 @@ Conjunct example: ST→ᛥ, S.T→ᛋᛏ<br>
 This keyboard is not case-sensitive.
 
 <br>
-
+<article>
 <h1>ᚻᚪᚹ᛫ᛏᚣ᛫ᚱᛡᛏ᛫ᛁᚾ᛫ᚱᚣᚾᛋ</h1>
 <h2>How to Write in Runes</h2>
 
@@ -126,7 +132,7 @@ phonetic alphabet), plus an example of this sound in a word,
 and finally the rune to represent that sound. I start with
 pure vowels, then diphthongs, and finally consonants. There is
 no distinction for vowel length.
-</p>
+</p></article>
 <table class="ipa">
 <tr>
   <th>IPA</th>
@@ -376,6 +382,9 @@ as if it were spelled ᚠᚣᚦᚩᚱᚳ.
 <p>If you'd like to contribute to this keyboard, or just check out the source code,
   the GitHub is at <a href="https://github.com/crackalamoo/futhorc" target="_blank">crackalamoo/futhorc</a>.
 </p>
+<p>If you like this tool, you might also like
+  <a href="https://harysdalvi.com/aljamiado">Aljamiado</a>.
+</p>
 
 <br>
 
@@ -537,6 +546,12 @@ as if it were spelled ᚠᚣᚦᚩᚱᚳ.
   <td>Queen/ᛢᛁᛁᚾ</td>
 </tr>
 </table>
+</main>
+
+<footer id="footer">
+  <a href="http://www.harysdalvi.com/sub/single-file/copyright.html">© Harys Dalvi</a><br>
+  <a href="http://www.harysdalvi.com/sub/single-file/privacy.html">Privacy Policy</a>
+</footer>
 
 <script>
 var text = document.getElementById("text");
