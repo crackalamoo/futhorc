@@ -2,6 +2,14 @@
 name = "rust"
 version = "0.1.0"
 edition = "2024"
+authors = ["David Campbell <dcampbell24@gmail.com>"]
+description = "Futhorc translator."
+# https://creativecommons.org/licenses/by-sa/4.0/
+license = "by-sa"
+repository = "https://github.com/crackalamoo/futhorc"
+readme = "README.md"
+keywords = ["futhorc", "runes"]
+categories = ["text-processing", "wasm"]
 
 [dependencies]
 anyhow = "1"
@@ -17,3 +25,14 @@ zip = []
 
 [lib]
 crate-type = ["cdylib", "rlib"]
+
+[lints.clippy]
+cargo = "deny"
+complexity = "deny"
+correctness = "deny"
+pedantic = "deny"
+perf = "deny"
+style = "deny"
+suspicious = "deny"
+
+multiple_crate_versions = { level = "allow", priority = 1 }
