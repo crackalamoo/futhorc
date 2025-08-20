@@ -1,0 +1,16 @@
+[package]
+name = "rust"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+anyhow = "1"
+
+# js engine only
+wasm-bindgen = { version = "0.2", optional = true }
+
+[features]
+default = ["zip"]
+debug = []
+js = ["dep:wasm-bindgen"]
+zip = []

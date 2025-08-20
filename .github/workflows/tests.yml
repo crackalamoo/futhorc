@@ -1,0 +1,22 @@
+on: push
+name: cargo test
+
+jobs:
+  cargo_test:
+    runs-on: ubuntu-latest
+    permissions:
+      security-events: write
+      # required for workflows in private repositories
+      # contents: read
+      actions: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+            persist-credentials: false
+
+      - name: Run cargo test
+        run: |
+          cd rust
+          sudo apt-get install libasound2-dev mold
+          unzip CMU-IPA.zip
+          cargo test --all-targets --features js,zip
