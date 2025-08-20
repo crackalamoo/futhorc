@@ -14,3 +14,6 @@ default = ["zip"]
 debug = []
 js = ["dep:wasm-bindgen"]
 zip = []
+
+[lib]
+crate-type = ["cdylib", "rlib"]
