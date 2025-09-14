@@ -299,9 +299,19 @@ fn handle_ipa_word(ipa_words: &mut Vec<(String, bool)>, ipa_word: &str, word: &s
         }
     } else if word.ends_with('\'') {
         ipa_word.push('\'');
+    } else if word.ends_with("'re") {
+        let mut chars = ipa_word.chars();
+        chars.next_back().unwrap();
+        ipa_word = chars.as_str().to_string();
+        ipa_word.push_str("'ɹ");
+    } else if word.ends_with("'ve") {
+        let mut chars = ipa_word.chars();
+        let c = chars.next_back().unwrap();
+        ipa_word = chars.as_str().to_string();
+        ipa_word.push('\'');
+        ipa_word.push(c);
     }
 
-    
     ipa_words.push((ipa_word, true));
 }
 
@@ -628,8 +638,8 @@ mod tests {
         assert_eq!(output, "ᚦᚫᛏ'ᛞ");
     }
 
-    // #[test]
-    fn _other_apostrophes() {
+    #[test]
+    fn other_apostrophes() {
         let dictionary = EnglishToRunes::default();
 
         let mut words = String::new();
