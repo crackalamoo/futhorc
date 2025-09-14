@@ -241,11 +241,7 @@ fn handle_ipa_word(ipa_words: &mut Vec<(String, bool)>, ipa_word: &str, word: &s
         let mut chars = ipa_word.chars();
         let c = chars.next_back().unwrap();
 
-        if Some('ʌ') == chars.clone().last() {
-            chars.next_back().unwrap();
-            ipa_word = chars.as_str().to_string();
-            ipa_word.push_str("'d");
-        } else if Some('ɪ') == chars.clone().last() {
+        if Some('ʌ') == chars.clone().last() || Some('ɪ') == chars.clone().last() {
             chars.next_back().unwrap();
             ipa_word = chars.as_str().to_string();
             ipa_word.push_str("'d");
@@ -383,8 +379,7 @@ fn translate_to_runic(string: &str) -> String {
             'X' => " ",
             ' ' => "᛫",
             'a' => "ᚪ",             // f_a_r
-            'ɑ' => "ᛟ",             // h_o_t (American)
-            'ɔ' => "ᛟ",             // h_o_t
+            'ɑ' | 'ɔ' => "ᛟ",       // h_o_t (American), h_o_t
             'æ' => "ᚫ",             // h_a_t
             'ɛ' => "ᛖ",             // s_e_nd
             'ɪ' | 'I' => "ᛁ",       // s_i_t, w_e_'ll, an_y_
