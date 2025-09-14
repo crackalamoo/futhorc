@@ -211,6 +211,10 @@ impl Default for EnglishToRunes {
         english_to_ipa.insert("futhorc".to_string(), "vʌθɑɹk".to_string());
         english_to_ipa.insert("the".to_string(), "ðɛ".to_string());
         english_to_ipa.insert("'tis".to_string(), "'tɪz".to_string());
+        english_to_ipa.insert("and".to_string(), "ænd".to_string());
+        english_to_ipa.insert("of".to_string(), "ɔv".to_string());
+        english_to_ipa.insert("a".to_string(), "ᚢ".to_string());
+        english_to_ipa.insert("from".to_string(), "ᚠᚱᛟᛗ".to_string());
 
         Self { english_to_ipa }
     }
@@ -223,7 +227,7 @@ fn handle_ipa_word(ipa_words: &mut Vec<(String, bool)>, ipa_word: &str, word: &s
         let mut chars = ipa_word.chars();
         chars.next_back().unwrap();
         ipa_word = chars.as_str().to_string();
-        ipa_word.push('ɑ');
+        ipa_word.push('a');
     }
 
     if ipa_word.ends_with('i') {
@@ -240,11 +244,11 @@ fn handle_ipa_word(ipa_words: &mut Vec<(String, bool)>, ipa_word: &str, word: &s
         if Some('ʌ') == chars.clone().last() {
             chars.next_back().unwrap();
             ipa_word = chars.as_str().to_string();
-            ipa_word.push_str("'ʌd");
+            ipa_word.push_str("'d");
         } else if Some('ɪ') == chars.clone().last() {
             chars.next_back().unwrap();
             ipa_word = chars.as_str().to_string();
-            ipa_word.push_str("'ɪd");
+            ipa_word.push_str("'d");
         } else {
             ipa_word = chars.as_str().to_string();
             ipa_word.push('\'');
@@ -297,6 +301,7 @@ fn handle_ipa_word(ipa_words: &mut Vec<(String, bool)>, ipa_word: &str, word: &s
         ipa_word.push('\'');
     }
 
+    
     ipa_words.push((ipa_word, true));
 }
 
@@ -367,7 +372,8 @@ fn translate_to_runic(string: &str) -> String {
         let runes = match char {
             'X' => " ",
             ' ' => "᛫",
-            'ɑ' => "ᚪ",             // f_a_r
+            'a' => "ᚪ",             // f_a_r
+            'ɑ' => "ᛟ",             // h_o_t (American)
             'ɔ' => "ᛟ",             // h_o_t
             'æ' => "ᚫ",             // h_a_t
             'ɛ' => "ᛖ",             // s_e_nd
@@ -426,28 +432,31 @@ fn translate_to_runic_2(string: &str) -> String {
                 skip = true;
                 "ᛠ" // st_ay_
             }
-            ['a', 'ɪ'] => {
+            ['a', 'ɪ' | 'j'] => {
                 skip = true;
                 "ᛡ" // l_ie_
-            }
-            // Added
-            ['a', 'j'] => {
-                skip = true;
-                "ᛁ" // l_i_ve
             }
             // 2nd 2nd added.
             ['a', 'ʊ' | 'w'] => {
                 skip = true;
                 "ᚪᚹ" // f_ou_nd
             }
+            ['ɑ', 'ɹ'] => {
+                skip = true;
+                "ᚪᚱ" // f_ar_
+            }
             // 2nd 2nd added.
             ['o', 'ʊ' | 'w'] => {
                 skip = true;
                 "ᚩ" // n_o_
             }
-            ['ɔ', 'ɪ'] => {
+            ['ɔ', 'ɪ' | 'j'] => {
                 skip = true;
                 "ᚩᛁ" // p_oi_nt
+            }
+            ['ɔ', 'ɹ'] => {
+                skip = true;
+                "ᚩᚱ" // d_oo_r
             }
             ['t', 'ʃ'] => {
                 skip = true;
@@ -539,9 +548,9 @@ mod tests {
         let dictionary = EnglishToRunes::default();
 
         let mut words = String::new();
-        words.push_str("ababa");
+        words.push_str("comma");
         let output = dictionary.translate(words);
-        assert_eq!(output, "ᚢᛒᚪᛒᚪ");
+        assert_eq!(output, "ᚳᛟᛗᚪ");
 
         let mut words = String::new();
         words.push_str("the");
@@ -556,7 +565,7 @@ mod tests {
         let mut words = String::new();
         words.push_str("bottle");
         let output = dictionary.translate(words);
-        assert_eq!(output, "ᛒᚪᛏᚢᛚ"); // Not ᛒᛟᛏᚢᛚ via CMU
+        assert_eq!(output, "ᛒᛟᛏᚢᛚ");
     }
 
     #[test]
@@ -579,9 +588,9 @@ mod tests {
         let dictionary = EnglishToRunes::default();
 
         let mut words = String::new();
-        words.push_str("renaissance's");
+        words.push_str("lady's");
         let output = dictionary.translate(words);
-        assert_eq!(output, "ᚱᛖᚾᚢᛋᛋᚪᚾᛋᛋᛁ'ᛋ");
+        assert_eq!(output, "ᛚᛠᛞᛁ'ᛋ");
 
         let mut words = String::new();
         words.push_str("we'll");
@@ -611,12 +620,12 @@ mod tests {
         let mut words = String::new();
         words.push_str("it'd");
         let output = dictionary.translate(words);
-        assert_eq!(output, "ᛁᛏ'ᚢᛞ");
+        assert_eq!(output, "ᛁᛏ'ᛞ");
 
         let mut words = String::new();
         words.push_str("that'd");
         let output = dictionary.translate(words);
-        assert_eq!(output, "ᚦᚫᛏ'ᛁᛞ");
+        assert_eq!(output, "ᚦᚫᛏ'ᛞ");
     }
 
     // #[test]
@@ -636,7 +645,7 @@ mod tests {
         let mut words = String::new();
         words.push_str("who're");
         let output = dictionary.translate(words);
-        assert_eq!(output, "");
+        assert_eq!(output, "ᚻᚣ'ᚱ");
 
         let mut words = String::new();
         words.push_str("who's");
@@ -646,7 +655,7 @@ mod tests {
         let mut words = String::new();
         words.push_str("who've");
         let output = dictionary.translate(words);
-        assert_eq!(output, "");
+        assert_eq!(output, "ᚻᚣ'ᚠ");
     }
 }
 
