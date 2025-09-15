@@ -2,6 +2,10 @@
 
 //! Futhorc created by Harys Dalvi (<https://www.harysdalvi.com/futhorc/>)
 
+use crate::{
+    AmbiguityMap, detect_ambiguities, disambiguate, remove_stress_markers, translate_to_runic,
+    translate_to_runic_2,
+};
 use std::collections::HashMap;
 
 #[cfg(feature = "js")]
@@ -67,6 +71,7 @@ pub fn words_to_runes(words: String) -> String {
 #[derive(Clone, Debug)]
 pub struct EnglishToRunes {
     pub english_to_ipa: HashMap<String, String>,
+    pub ambiguity_map: AmbiguityMap,
 }
 
 #[cfg(feature = "js")]
@@ -76,6 +81,7 @@ pub struct EnglishToRunes {
 pub struct EnglishToRunes {
     #[wasm_bindgen(skip)]
     pub english_to_ipa: HashMap<String, String>,
+    pub ambiguity_map: AmbiguityMap,
 }
 
 #[cfg(feature = "js")]
@@ -172,7 +178,10 @@ impl EnglishToRunes {
 
         for (i, (word, translated_to_ipa)) in ipa_words.iter().enumerate() {
             if *translated_to_ipa {
-                let rune_word = translate_to_runic(&translate_to_runic_2(word));
+                let rune_word = translate_to_runic(&translate_to_runic_2(&disambiguate(
+                    word,
+                    &self.ambiguity_map,
+                )));
 
                 #[cfg(feature = "debug")]
                 println!("{word} {rune_word}");
@@ -214,9 +223,14 @@ impl Default for EnglishToRunes {
         english_to_ipa.insert("and".to_string(), "ænd".to_string());
         english_to_ipa.insert("of".to_string(), "ɔv".to_string());
         english_to_ipa.insert("a".to_string(), "ᚢ".to_string());
-        english_to_ipa.insert("from".to_string(), "ᚠᚱᛟᛗ".to_string());
+        english_to_ipa.insert("from".to_string(), "frɔm".to_string());
 
-        Self { english_to_ipa }
+        let ambiguity_map = detect_ambiguities(&english_to_ipa);
+
+        Self {
+            english_to_ipa,
+            ambiguity_map,
+        }
     }
 }
 
@@ -358,142 +372,6 @@ fn parse_whitespace(words: &str) -> Vec<String> {
     spaces
 }
 
-fn remove_stress_markers(string: &str) -> String {
-    let mut output = String::new();
-
-    for ch in string.chars() {
-        match ch {
-            'ˈ' | 'ˌ' => {}
-            ch => output.push(ch),
-        }
-    }
-
-    output
-}
-
-fn translate_to_runic(string: &str) -> String {
-    let mut output = String::new();
-
-    for char in string.chars() {
-        let runes = match char {
-            'X' => " ",
-            ' ' => "᛫",
-            'a' => "ᚪ",             // f_a_r
-            'ɑ' | 'ɔ' => "ᛟ",       // h_o_t (American), h_o_t
-            'æ' => "ᚫ",             // h_a_t
-            'ɛ' => "ᛖ",             // s_e_nd
-            'ɪ' | 'I' => "ᛁ",       // s_i_t, w_e_'ll, an_y_
-            'i' => "ᛁᛁ",            // s_ee_d
-            'ʊ' | 'u' => "ᚣ",       // b_oo_k, f_oo_d
-            'ə' | 'ʌ' | 'ɜ' => "ᚢ", // _a_bout, f_u_n, t_u_rn
-            'p' | 'P' => "ᛈ",       // _p_ot
-            'b' => "ᛒ",             // _b_oy
-            't' | 'T' => "ᛏ",       // _t_ime
-            'd' | 'D' => "ᛞ",       // _d_og
-            'k' | 'K' => "ᚳ",       // _k_ite
-            'g' => "ᚷ",             // _g_ame
-            'f' | 'F' => "ᚠᚠ",      // _f_ear
-            'v' => "ᚠ",             // _v_ine
-            'θ' | 'ð' => "ᚦ",       // _th_ing, _th_is
-            's' => "ᛋᛋ",            // _s_ee, lot_s_
-            'z' => "ᛋ",             // _z_ebra, song_s_
-            'ʃ' | 'ʒ' => "ᛋᚻ",      // _sh_are, mea_s_ure
-            'h' => "ᚻ",             // _h_ole
-            'm' | 'M' => "ᛗ",       // _m_outh
-            'n' | 'N' => "ᚾ",       // _n_ow
-            'ŋ' => "ᛝ",             // ri_ng_
-            'j' => "ᛄ",             // _y_ou
-            'w' => "ᚹ",             // _w_ind
-            'ɹ' | 'R' => "ᚱ",       // _r_ain
-            'l' | 'L' => "ᛚ",       // _l_ine
-            // Added below this line.
-            'ʤ' => "ᚷᚻ", // _j_og
-            'ʧ' => "ᚳᚻ", // _ch_eese
-            'ɚ' => "ᚢᚱ", // runn_er_
-            c => &c.to_string(),
-        };
-
-        output.push_str(runes);
-    }
-
-    output
-}
-
-fn translate_to_runic_2(string: &str) -> String {
-    let vec: Vec<_> = string.chars().collect();
-    let mut string = String::new();
-
-    let mut skip = false;
-
-    for two in vec.windows(2) {
-        if skip {
-            skip = false;
-            continue;
-        }
-
-        let output = match two {
-            // 2nd 2nd added.
-            ['e', 'ɪ' | 'j'] => {
-                skip = true;
-                "ᛠ" // st_ay_
-            }
-            ['a', 'ɪ' | 'j'] => {
-                skip = true;
-                "ᛡ" // l_ie_
-            }
-            // 2nd 2nd added.
-            ['a', 'ʊ' | 'w'] => {
-                skip = true;
-                "ᚪᚹ" // f_ou_nd
-            }
-            ['ɑ', 'ɹ'] => {
-                skip = true;
-                "ᚪᚱ" // f_ar_
-            }
-            // 2nd 2nd added.
-            ['o', 'ʊ' | 'w'] => {
-                skip = true;
-                "ᚩ" // n_o_
-            }
-            ['ɔ', 'ɪ' | 'j'] => {
-                skip = true;
-                "ᚩᛁ" // p_oi_nt
-            }
-            ['ɔ', 'ɹ'] => {
-                skip = true;
-                "ᚩᚱ" // d_oo_r
-            }
-            ['t', 'ʃ'] => {
-                skip = true;
-                "ᚳᚻ" // _ch_eese
-            }
-            ['d', 'ʒ'] => {
-                skip = true;
-                "ᚷᚻ" // _j_og
-            }
-            ['ŋ', 'g'] => {
-                skip = true;
-                "ᛝ" // ri_ng_
-            }
-            // Added.
-            ['s', 'S'] => {
-                skip = true;
-                "ᛋᛋᛋ" // ri_ng_
-            }
-            [one] | [one, _] => &one.to_string(),
-            [] | [..] => "",
-        };
-
-        string.push_str(output);
-    }
-
-    if !skip {
-        string.push(*vec.last().unwrap());
-    }
-
-    string
-}
-
 #[cfg(test)]
 mod tests {
     use crate::futhorc::EnglishToRunes;
@@ -535,7 +413,7 @@ mod tests {
         let mut words = String::new();
         words.push_str("absolut's");
         let output = dictionary.translate(words);
-        assert_eq!(output, "ᚫᛒᛋᛋᚢᛚᚣᛏ'ᛋᛋ");
+        assert_eq!(output, "ᚫᛒᛋᚢᛚᚣᛏ'ᛋ");
 
         let mut words = String::new();
         words.push_str("company'll");
@@ -610,7 +488,7 @@ mod tests {
         let mut words = String::new();
         words.push_str("immigrants'");
         let output = dictionary.translate(words);
-        assert_eq!(output, "ᛁᛗᛁᚷᚱᚢᚾᛏᛋᛋ'");
+        assert_eq!(output, "ᛁᛗᛁᚷᚱᚢᚾᛏᛋ'");
     }
 
     #[test]
@@ -661,6 +539,51 @@ mod tests {
         words.push_str("who've");
         let output = dictionary.translate(words);
         assert_eq!(output, "ᚻᚣ'ᚠ");
+    }
+
+    #[test]
+    fn ambiguity() {
+        let dictionary = EnglishToRunes::default();
+
+        let mut words = String::new();
+        words.push_str("leaves");
+        let output = dictionary.translate(words);
+        assert_eq!(output, "ᛚᛁᛁᚠᛋ");
+
+        let mut words = String::new();
+        words.push_str("leaf");
+        let output = dictionary.translate(words);
+        assert_eq!(output, "ᛚᛁᛁᚠᚠ");
+
+        let mut words = String::new();
+        words.push_str("leave");
+        let output = dictionary.translate(words);
+        assert_eq!(output, "ᛚᛁᛁᚠ");
+
+        let mut words = String::new();
+        words.push_str("lose");
+        let output = dictionary.translate(words);
+        assert_eq!(output, "ᛚᚣᛋ");
+
+        let mut words = String::new();
+        words.push_str("loose");
+        let output = dictionary.translate(words);
+        assert_eq!(output, "ᛚᚣᛋᛋ");
+    }
+
+    #[test]
+    fn no_ambiguity() {
+        let dictionary = EnglishToRunes::default();
+
+        let mut words = String::new();
+        words.push_str("after");
+        let output = dictionary.translate(words);
+        assert_eq!(output, "ᚫᚠᛏᚢᚱ");
+
+        let mut words = String::new();
+        words.push_str("ask");
+        let output = dictionary.translate(words);
+        assert_eq!(output, "ᚫᛋᚳ");
     }
 }
 

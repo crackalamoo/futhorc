@@ -1,6 +1,6 @@
 #[cfg(feature = "zip")]
 fn main() -> Result<(), anyhow::Error> {
-    use rust::futhorc::EnglishToRunes;
+    use rust_futhorc::futhorc::EnglishToRunes;
     use std::io;
 
     let dictionary = EnglishToRunes::default();

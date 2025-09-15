@@ -1,5 +1,5 @@
 [package]
-name = "rust"
+name = "rust-futhorc"
 version = "0.1.0"
 edition = "2024"
 rust-version =  "1.85.1"
@@ -14,6 +14,7 @@ categories = ["text-processing", "wasm"]
 
 [dependencies]
 anyhow = "1"
+smallvec = "1.15.1"
 
 # js engine only
 wasm-bindgen = { version = "0.2", optional = true }
