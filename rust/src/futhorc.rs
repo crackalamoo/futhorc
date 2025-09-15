@@ -81,6 +81,7 @@ pub struct EnglishToRunes {
 pub struct EnglishToRunes {
     #[wasm_bindgen(skip)]
     pub english_to_ipa: HashMap<String, String>,
+    #[wasm_bindgen(skip)]
     pub ambiguity_map: AmbiguityMap,
 }
 
