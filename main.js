@@ -8,10 +8,10 @@ let currentWordStartIndex = null;
 
 const WORD_BOUNDARY_CHARS = new Set([
   " ", "\n", "\r", "\t", ".", ",", ":", ";", "!", "?", "(", ")",
-  "[", "]", "{", "}", "\"", "'", "-", "—", "᛫", "&", "⁊"
+  "[", "]", "{", "}", "\"", "-", "—", "᛫", "&", "⁊"
 ]);
 
-const LATIN_LETTER_REGEX = /[a-z]/;
+const LATIN_WORD_CHAR_REGEX = /[a-z']/;
 
 const PUNCT = ['. ',',',':',';','!','?',')'];
 
@@ -79,6 +79,8 @@ function handleAddition(added, startIndex, source) {
   const completed = [];
   let index = typeof startIndex === "number" ? startIndex : 0;
   for (const ch of added) {
+    const isWordChar = LATIN_WORD_CHAR_REGEX.test(ch);
+
     if (isBoundaryChar(ch)) {
       if (currentLatinWord) {
         let start = currentWordStartIndex;
@@ -89,7 +91,7 @@ function handleAddition(added, startIndex, source) {
       }
       currentLatinWord = "";
       currentWordStartIndex = null;
-    } else if (LATIN_LETTER_REGEX.test(ch)) {
+    } else if (isWordChar) {
       if (!currentLatinWord) {
         currentWordStartIndex = index;
       }
@@ -118,7 +120,8 @@ function handleRemoval(removed) {
       index -= 1;
       continue;
     }
-    if (LATIN_LETTER_REGEX.test(ch)) {
+    const isWordChar = LATIN_WORD_CHAR_REGEX.test(ch);
+    if (isWordChar) {
       if (currentLatinWord.endsWith(ch)) {
         currentLatinWord = currentLatinWord.slice(0, -1);
       } else if (currentLatinWord.length > 0) {
