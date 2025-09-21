@@ -245,7 +245,7 @@ impl Default for EnglishToRunes {
 fn handle_ipa_word(ipa_words: &mut Vec<(String, bool)>, ipa_word: &str, word: &str) {
     if word.chars().count() == 1 {
         let ch = word.chars().next().unwrap();
-        if ch != 'a' {
+        if ch != 'a' && ch != 'i' {
             ipa_words.push((word.to_string(), false));
             return;
         }
