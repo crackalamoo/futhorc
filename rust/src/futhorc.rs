@@ -243,6 +243,9 @@ impl Default for EnglishToRunes {
         english_to_ipa.insert("neither".to_string(), "naɪðɚ".to_string());
         english_to_ipa.insert("else".to_string(), "ɛlz".to_string());
         english_to_ipa.insert("since".to_string(), "zɪns".to_string());
+        english_to_ipa.insert("very".to_string(), "ᚠᛖᚱᛁ".to_string());
+        english_to_ipa.insert("fire".to_string(), "fajɹ".to_string());
+        english_to_ipa.insert("our".to_string(), "awɹ".to_string());
 
         let ambiguity_map = detect_ambiguities(&english_to_ipa);
 

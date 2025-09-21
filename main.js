@@ -443,6 +443,36 @@ function updateText() {
 text.oninput = updateText;
 
 function copyText() {
+  // Treat as if a word boundary was reached: convert any unfinished word
+  if (currentLatinWord && typeof currentWordStartIndex === "number") {
+    // Find the boundary char (simulate as space)
+    const boundaryChar = " ";
+    // Convert the unfinished word
+    const desiredRunes = convertWord(currentLatinWord, boundaryChar);
+    // Get prefix and suffix in runes
+    const rawValue = text.value;
+    const prefixRunes = convertString(rawValue.slice(0, currentWordStartIndex));
+    const sliceWithBoundary = rawValue.slice(currentWordStartIndex) + boundaryChar;
+    const convertedWithBoundary = convertString(sliceWithBoundary);
+    const boundaryConverted = convertString(boundaryChar);
+
+    let wordRunesLength = convertedWithBoundary.length;
+    if (boundaryConverted && convertedWithBoundary.endsWith(boundaryConverted)) {
+      wordRunesLength -= boundaryConverted.length;
+    }
+
+    const replaceStart = prefixRunes.length;
+    const replaceEnd = replaceStart + wordRunesLength;
+
+    // Replace the unfinished word in the textarea value
+    text.value = text.value.slice(0, replaceStart) + desiredRunes + text.value.slice(replaceEnd);
+
+    // Reset tracking state
+    currentLatinWord = "";
+    currentWordStartIndex = null;
+    lastRunifiedValue = text.value;
+  }
+
   text.select();
   text.setSelectionRange(0, 99999);
   document.execCommand("copy");
