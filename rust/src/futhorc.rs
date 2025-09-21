@@ -227,11 +227,22 @@ impl Default for EnglishToRunes {
         english_to_ipa.insert("from".to_string(), "fɹɔm".to_string());
         english_to_ipa.insert("aren't".to_string(), "ɑɹnt".to_string());
         english_to_ipa.insert("isn't".to_string(), "ɪznt".to_string());
+        english_to_ipa.insert("didn't".to_string(), "dɪdnt".to_string());
         english_to_ipa.insert("doesn't".to_string(), "dʌznt".to_string());
         english_to_ipa.insert("shouldn't".to_string(), "ʃʊdənt".to_string());
         english_to_ipa.insert("couldn't".to_string(), "kʊdnt".to_string());
         english_to_ipa.insert("wouldn't".to_string(), "wʊdnt".to_string());
         english_to_ipa.insert("i'm".to_string(), "aɪ'm".to_string());
+        english_to_ipa.insert("for".to_string(), "vɔɹ".to_string());
+        english_to_ipa.insert("so".to_string(), "zow".to_string());
+        english_to_ipa.insert("use".to_string(), "juz".to_string());
+        english_to_ipa.insert("first".to_string(), "vɚst".to_string());
+        english_to_ipa.insert("vase".to_string(), "vaz".to_string());
+        english_to_ipa.insert("worse".to_string(), "wɚz".to_string());
+        english_to_ipa.insert("either".to_string(), "aɪðɚ".to_string());
+        english_to_ipa.insert("neither".to_string(), "naɪðɚ".to_string());
+        english_to_ipa.insert("else".to_string(), "ɛlz".to_string());
+        english_to_ipa.insert("since".to_string(), "zɪns".to_string());
 
         let ambiguity_map = detect_ambiguities(&english_to_ipa);
 
@@ -331,11 +342,28 @@ fn handle_ipa_word(ipa_words: &mut Vec<(String, bool)>, ipa_word: &str, word: &s
         ipa_word = chars.as_str().to_string();
         ipa_word.push_str("'ɹ");
     } else if word.ends_with("'ve") {
-        let mut chars = ipa_word.chars();
-        let c = chars.next_back().unwrap();
-        ipa_word = chars.as_str().to_string();
-        ipa_word.push('\'');
-        ipa_word.push(c);
+        let mut chars: Vec<char> = ipa_word.chars().collect();
+
+        if let Some(c) = chars.pop() {
+            if let Some(prev) = chars.last() {
+                if matches!(*prev, 'ə' | 'ʌ' | 'ɜ' | 'a') {
+                    chars.pop();
+                }
+            }
+
+            if let Some(prev) = chars.last() {
+                if *prev == 'i' {
+                    chars.pop();
+                    chars.push('I');
+                }
+            }
+
+            chars.push('\'');
+            chars.push(c);
+            ipa_word = chars.into_iter().collect();
+        } else {
+            ipa_word.push_str("'v");
+        }
     }
 
     ipa_word = mark_letter_x(word, ipa_word);
@@ -467,7 +495,7 @@ mod tests {
         let mut words = String::new();
         words.push_str("company'll");
         let output = dictionary.translate(words);
-        assert_eq!(output, "ᚳᚢᛗᛈᚢᚾᛁ'ᚢᛚ");
+        assert_eq!(output, "ᚳᚢᛗᛈᚢᚾᛁ'ᛚ");
 
         let mut words = String::new();
         words.push_str("he'll");
@@ -588,6 +616,11 @@ mod tests {
         words.push_str("who've");
         let output = dictionary.translate(words);
         assert_eq!(output, "ᚻᚣ'ᚠ");
+
+        let mut words = String::new();
+        words.push_str("should've");
+        let output = dictionary.translate(words);
+        assert_eq!(output, "ᛋᚻᚣᛞ'ᚠ");
     }
 
     #[test]
