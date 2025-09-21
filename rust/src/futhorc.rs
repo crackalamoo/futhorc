@@ -224,7 +224,7 @@ impl Default for EnglishToRunes {
         english_to_ipa.insert("and".to_string(), "ænd".to_string());
         english_to_ipa.insert("of".to_string(), "ɔv".to_string());
         english_to_ipa.insert("a".to_string(), "ᚢ".to_string());
-        english_to_ipa.insert("from".to_string(), "frɔm".to_string());
+        english_to_ipa.insert("from".to_string(), "fɹɔm".to_string());
 
         let ambiguity_map = detect_ambiguities(&english_to_ipa);
 
