@@ -1,6 +1,6 @@
 #![cfg(feature = "zip")]
 
-//! Futhorc created by Harys Dalvi (<https://www.harysdalvi.com/futhorc/>)
+//! Futhorc created by Harys Dalvi and David Campbell (<https://www.harysdalvi.com/futhorc/>)
 
 use crate::{
     AmbiguityMap, detect_ambiguities, disambiguate, remove_stress_markers, translate_to_runic,

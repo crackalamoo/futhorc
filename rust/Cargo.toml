@@ -3,7 +3,7 @@ name = "rust-futhorc"
 version = "0.1.0"
 edition = "2024"
 rust-version =  "1.85.1"
-authors = ["David Campbell <dcampbell24@gmail.com>"]
+authors = ["David Campbell <dcampbell24@gmail.com>", "Harys Dalvi <harysdalvi@gmail.com>"]
 description = "Futhorc translator."
 # https://creativecommons.org/licenses/by-sa/4.0/
 license = "by-sa"
