@@ -367,6 +367,7 @@ fn handle_ipa_word(ipa_words: &mut Vec<(String, bool)>, ipa_word: &str, word: &s
     }
 
     ipa_word = mark_letter_x(word, ipa_word);
+    ipa_word = normalize_ed_suffix(word, ipa_word);
 
     ipa_words.push((ipa_word, true));
 }
@@ -400,6 +401,19 @@ fn mark_letter_x(word: &str, ipa_input: String) -> String {
     }
 
     ipa_chars.into_iter().collect()
+}
+
+fn normalize_ed_suffix(word: &str, mut ipa_word: String) -> String {
+    if word.len() >= 3 && word.ends_with("ed") {
+        if let Some(last) = ipa_word.chars().last() {
+            if last == 't' {
+                ipa_word.pop();
+                ipa_word.push('d');
+            }
+        }
+    }
+
+    ipa_word
 }
 
 fn handle_punctuation(
@@ -476,6 +490,16 @@ mod tests {
         words.push_str("apple banana\ncarrot\n\n");
         let output = dictionary.translate(words);
         assert_eq!(output, "ᚫᛈᚢᛚ᛫ᛒᚢᚾᚫᚾᚪ\nᚳᚫᚱᚢᛏ\n\n");
+    }
+
+    #[test]
+    fn ed_suffix_pronounced_t_maps_to_d() {
+        let dictionary = EnglishToRunes::default();
+
+        let mut words = String::new();
+        words.push_str("walked");
+        let output = dictionary.translate(words);
+        assert_eq!(output, "ᚹᛟᚳᛞ");
     }
 
     #[test]
