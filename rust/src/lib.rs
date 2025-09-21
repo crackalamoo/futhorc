@@ -65,6 +65,7 @@ fn translate_to_runic(string: &str) -> String {
             'w' => "ᚹ",             // _w_ind
             'ɹ' | 'R' => "ᚱ",       // _r_ain
             'l' | 'L' => "ᛚ",       // _l_ine
+            'ˣ' => "ᛉ",             // letter x represented as ks
             // Added below this line.
             'ʤ' => "ᚷᚻ", // _j_og
             'ʧ' => "ᚳᚻ", // _ch_eese
@@ -74,6 +75,9 @@ fn translate_to_runic(string: &str) -> String {
 
         output.push_str(runes);
     }
+
+    output = output.replace("ᛋᛏ", "ᛥ");
+    output = output.replace("ᚳᚹ", "ᛢ");
 
     output
 }
@@ -108,6 +112,14 @@ fn translate_to_runic_2(string: &str) -> String {
             ['ɑ', 'ɹ'] => {
                 skip = true;
                 "ᚪᚱ" // f_ar_
+            }
+            ['ɛ', 'ɹ'] => {
+                skip = true;
+                "ᛠᚱ" // ai_r
+            }
+            ['ɪ' | 'i', 'ɹ'] => {
+                skip = true;
+                "ᛁᛁᚱ" // f_ear_
             }
             // 2nd 2nd added.
             ['o', 'ʊ' | 'w'] => {

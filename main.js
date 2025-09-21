@@ -197,7 +197,7 @@ function applyConversionPass(value) {
   t = t.replaceAll("ᛖ.r", "ᛖᚱ");
   t = t.replaceAll("ᚫr", "ᚪᚱ");
   t = t.replaceAll("ᚫ.r", "ᚫᚱ");
-  t = t.replaceAll("ᛟr", "ᚪᚱ");
+  t = t.replaceAll("ᛟr", "ᚩᚱ");
   t = t.replaceAll("ᛟ.r", "ᛟᚱ");
   t = t.replaceAll("ᛟw", "ᚪᚹ");
   t = t.replaceAll("ᛟ.w", "ᛟᚹ");

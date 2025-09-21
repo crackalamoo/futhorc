@@ -225,6 +225,12 @@ impl Default for EnglishToRunes {
         english_to_ipa.insert("of".to_string(), "ɔv".to_string());
         english_to_ipa.insert("a".to_string(), "ᚢ".to_string());
         english_to_ipa.insert("from".to_string(), "fɹɔm".to_string());
+        english_to_ipa.insert("aren't".to_string(), "ɑɹnt".to_string());
+        english_to_ipa.insert("isn't".to_string(), "ɪznt".to_string());
+        english_to_ipa.insert("doesn't".to_string(), "dʌznt".to_string());
+        english_to_ipa.insert("shouldn't".to_string(), "ʃʊdənt".to_string());
+        english_to_ipa.insert("couldn't".to_string(), "kʊdnt".to_string());
+        english_to_ipa.insert("wouldn't".to_string(), "wʊdnt".to_string());
 
         let ambiguity_map = detect_ambiguities(&english_to_ipa);
 
@@ -252,7 +258,13 @@ fn handle_ipa_word(ipa_words: &mut Vec<(String, bool)>, ipa_word: &str, word: &s
         ipa_word.push('I');
     }
 
-    if word.ends_with("'d") {
+    if word.ends_with("'t") {
+        let mut chars = ipa_word.chars();
+        let c = chars.next_back().unwrap();
+        ipa_word = chars.as_str().to_string();
+        ipa_word.push('\'');
+        ipa_word.push(c);
+    } else if word.ends_with("'d") {
         let mut chars = ipa_word.chars();
         let c = chars.next_back().unwrap();
 
@@ -280,33 +292,27 @@ fn handle_ipa_word(ipa_words: &mut Vec<(String, bool)>, ipa_word: &str, word: &s
         ipa_word.push('\'');
         ipa_word.push(c);
     } else if word.ends_with("'ll") {
-        let mut chars = ipa_word.chars();
+        let mut chars: Vec<char> = ipa_word.chars().collect();
 
-        if ipa_word.ends_with("ʌl") {
-            chars.next_back().unwrap();
-            chars.next_back().unwrap();
-
-            if Some('i') == chars.clone().last() {
-                chars.next_back().unwrap();
-                ipa_word = chars.as_str().to_string();
-                ipa_word.push_str("I'ʌl");
-            } else {
-                ipa_word = chars.as_str().to_string();
-                ipa_word.push_str("'ʌl");
+        if let Some('l') = chars.pop() {
+            if let Some(prev) = chars.last() {
+                if matches!(*prev, 'ə' | 'ʌ' | 'ɜ' | 'a') {
+                    chars.pop();
+                }
             }
+
+            if let Some(prev) = chars.last() {
+                if *prev == 'i' {
+                    chars.pop();
+                    chars.push('I');
+                }
+            }
+
+            chars.push('\'');
+            chars.push('l');
+            ipa_word = chars.into_iter().collect();
         } else {
-            let c = chars.next_back().unwrap();
-
-            if Some('i') == chars.clone().last() {
-                chars.next_back().unwrap();
-                ipa_word = chars.as_str().to_string();
-                ipa_word.push_str("I'");
-                ipa_word.push(c);
-            } else {
-                ipa_word = chars.as_str().to_string();
-                ipa_word.push('\'');
-                ipa_word.push(c);
-            }
+            ipa_word.push_str("'l");
         }
     } else if word.ends_with('\'') {
         ipa_word.push('\'');
@@ -323,7 +329,40 @@ fn handle_ipa_word(ipa_words: &mut Vec<(String, bool)>, ipa_word: &str, word: &s
         ipa_word.push(c);
     }
 
+    ipa_word = mark_letter_x(word, ipa_word);
+
     ipa_words.push((ipa_word, true));
+}
+
+fn mark_letter_x(word: &str, ipa_input: String) -> String {
+    if !word.chars().any(|c| c == 'x' || c == 'X') {
+        return ipa_input;
+    }
+
+    let mut ipa_chars: Vec<char> = ipa_input.chars().collect();
+    let mut search_start = 0usize;
+
+    for ch in word.chars() {
+        if ch.eq_ignore_ascii_case(&'x') {
+            let mut idx = search_start;
+            let mut found = None;
+            while idx + 1 < ipa_chars.len() {
+                if ipa_chars[idx] == 'k' && ipa_chars[idx + 1] == 's' {
+                    found = Some(idx);
+                    break;
+                }
+                idx += 1;
+            }
+
+            if let Some(pos) = found {
+                ipa_chars[pos] = 'ˣ';
+                ipa_chars.remove(pos + 1);
+                search_start = pos + 1;
+            }
+        }
+    }
+
+    ipa_chars.into_iter().collect()
 }
 
 fn handle_punctuation(
