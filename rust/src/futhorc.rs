@@ -231,6 +231,7 @@ impl Default for EnglishToRunes {
         english_to_ipa.insert("shouldn't".to_string(), "ʃʊdənt".to_string());
         english_to_ipa.insert("couldn't".to_string(), "kʊdnt".to_string());
         english_to_ipa.insert("wouldn't".to_string(), "wʊdnt".to_string());
+        english_to_ipa.insert("i'm".to_string(), "aɪ'm".to_string());
 
         let ambiguity_map = detect_ambiguities(&english_to_ipa);
 

@@ -556,9 +556,20 @@ as if it were spelled ᚠᚣᚦᚩᚱᚳ.
 </footer>
 
 <script type="module">
-  import init, { EnglishToRunes } from './rust/pkg/rust_futhorc.js';
-  await init();
-  window.e2r = new EnglishToRunes();
+  const LOCAL_WASM = './pkg/rust_futhorc.js';
+  const FALLBACK_WASM = 'https://www.harysdalvi.com/sub/projects/futhorc/pkg/rust_futhorc.js';
+
+  async function initWasmEntry(moduleUrl) {
+    const { default: init, EnglishToRunes } = await import(moduleUrl);
+    await init();
+    return new EnglishToRunes();
+  }
+
+  try {
+    window.e2r = await initWasmEntry(LOCAL_WASM);
+  } catch (error) {
+    window.e2r = await initWasmEntry(FALLBACK_WASM);
+  }
 </script>
 <script src="main.js"></script>
 </body>

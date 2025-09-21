@@ -2,3 +2,4 @@ CMU.in.IPA.txt
 .DS_Store
 
 target/
+pkg/
