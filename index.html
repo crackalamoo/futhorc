@@ -553,6 +553,11 @@ as if it were spelled ᚠᚣᚦᚩᚱᚳ.
   <a href="http://www.harysdalvi.com/sub/single-file/privacy.html">Privacy Policy</a>
 </footer>
 
+<script type="module">
+  import init, { EnglishToRunes } from './rust/pkg/rust_futhorc.js';
+  await init();
+  window.e2r = new EnglishToRunes();
+</script>
 <script src="main.js"></script>
 </body>
 </html>

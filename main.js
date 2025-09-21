@@ -285,7 +285,7 @@ function convertString(input) {
   return working;
 }
 
-function convertWord(latin, boundaryChar = " ") {
+function convertWordFallback(latin, boundaryChar = " ") {
   if (!latin) {
     return "";
   }
@@ -304,6 +304,48 @@ function convertWord(latin, boundaryChar = " ") {
     return converted.slice(0, converted.length - boundary.length);
   }
   return converted;
+}
+
+function convertWord(latin, boundaryChar = " ") {
+  if (!latin) {
+    return "";
+  }
+
+  const boundary = boundaryChar ?? "";
+  const baseInput = boundary ? latin + boundary : latin;
+  const e2r = window.e2r;
+  console.log(e2r, e2r.translate_js);
+
+  if (e2r && e2r.translate_js) {
+    try {
+      let wasmResult = e2r.translate_js(baseInput, boundary);
+      if (
+        typeof wasmResult === "string" &&
+        wasmResult !== baseInput &&
+        wasmResult !== latin
+      ) {
+        console.log("WASM conversion succeeded", { latin, boundary, wasmResult });
+        let converted = wasmResult;
+        if (boundary) {
+          const boundaryConverted = convertString(boundary);
+          if (boundaryConverted && converted.endsWith(boundaryConverted)) {
+            converted = converted.slice(0, converted.length - boundaryConverted.length);
+          } else if (converted.endsWith(boundary)) {
+            converted = converted.slice(0, converted.length - boundary.length);
+          }
+        }
+        if (converted === latin) {
+          // fallback to JS if no change
+          return convertWordFallback(latin, boundary);
+        }
+        return converted;
+      }
+    } catch (error) {
+      // fall back to JS pipeline below if WASM call fails
+    }
+  }
+
+  return convertWordFallback(latin, boundary);
 }
 
 function applyCompletedWordConversions(textValue, completions, rawValue) {
@@ -326,10 +368,18 @@ function applyCompletedWordConversions(textValue, completions, rawValue) {
     const boundaryChar = boundary ?? " ";
     const desiredRunes = convertWord(completion.word, boundaryChar);
     const prefixRunes = convertString(rawValue.slice(0, start));
-    const wordRunes = convertString(rawValue.slice(start, end));
+
+    const sliceWithBoundary = rawValue.slice(start, end) + boundaryChar;
+    const convertedWithBoundary = convertString(sliceWithBoundary);
+    const boundaryConverted = convertString(boundaryChar);
+
+    let wordRunesLength = convertedWithBoundary.length;
+    if (boundaryConverted && convertedWithBoundary.endsWith(boundaryConverted)) {
+      wordRunesLength -= boundaryConverted.length;
+    }
 
     const replaceStart = prefixRunes.length;
-    const replaceEnd = replaceStart + wordRunes.length;
+    const replaceEnd = replaceStart + wordRunesLength;
 
     result = result.slice(0, replaceStart) + desiredRunes + result.slice(replaceEnd);
   }
