@@ -268,6 +268,18 @@ function applyConversionPass(value) {
   return t;
 }
 
+function isPronunciationConversionEnabled() {
+  const settingsForm = document.settings;
+  if (!settingsForm || typeof settingsForm !== "object") {
+    return true;
+  }
+  const checkbox = settingsForm.pronunciation;
+  if (typeof checkbox === "undefined" || checkbox === null) {
+    return true;
+  }
+  return !!checkbox.checked;
+}
+
 function convertString(input) {
   const source = Array.from((input ?? "").toString().toLowerCase());
   let working = "";
@@ -397,9 +409,11 @@ function updateText() {
   const selectionStart = typeof text.selectionStart === "number" ? text.selectionStart : rawLen;
   const selectionEnd = typeof text.selectionEnd === "number" ? text.selectionEnd : selectionStart;
   const trackingEnabled = selectionStart === selectionEnd && selectionEnd === rawLen;
+  const pronunciationEnabled = isPronunciationConversionEnabled();
+  const trackingAllowed = trackingEnabled && pronunciationEnabled;
 
   let completedWords = [];
-  if (!trackingEnabled) {
+  if (!trackingAllowed) {
     currentLatinWord = "";
     currentWordStartIndex = null;
   } else if (prevValue !== rawValue) {
@@ -416,7 +430,7 @@ function updateText() {
   let pos = selectionStart;
   let t = convertString(rawValue);
 
-  if (trackingEnabled && completedWords.length > 0) {
+  if (trackingAllowed && completedWords.length > 0) {
     t = applyCompletedWordConversions(t, completedWords, rawValue);
   }
 
