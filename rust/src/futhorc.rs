@@ -243,6 +243,14 @@ impl Default for EnglishToRunes {
 }
 
 fn handle_ipa_word(ipa_words: &mut Vec<(String, bool)>, ipa_word: &str, word: &str) {
+    if word.chars().count() == 1 {
+        let ch = word.chars().next().unwrap();
+        if ch != 'a' {
+            ipa_words.push((word.to_string(), false));
+            return;
+        }
+    }
+
     let mut ipa_word = remove_stress_markers(ipa_word);
 
     if ipa_word.ends_with('ə') || ipa_word.ends_with('ʌ') || ipa_word.ends_with('ɜ') {
