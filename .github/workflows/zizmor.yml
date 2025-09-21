@@ -1,0 +1,28 @@
+on: push
+name: Security Analysis with zizmor 🌈
+
+jobs:
+  zizmor:
+    name: zizmor latest via PyPI
+    runs-on: ubuntu-latest
+    permissions:
+      security-events: write
+      # required for workflows in private repositories
+      # contents: read
+      actions: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # pin@v4
+        with:
+          persist-credentials: false
+
+      - name: Install the latest version of uv
+        uses: astral-sh/setup-uv@d4b2f3b6ecc6e67c4457f6d3e41ec42d3d0fcb86 # pin@v5
+
+      - name: Run zizmor 🌈
+        run: |
+          cd "$GITHUB_WORKSPACE"
+          uvx zizmor --gh-token "$GH_TOKEN" .github/workflows/*
+
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

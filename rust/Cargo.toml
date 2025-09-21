@@ -1,0 +1,40 @@
+[package]
+name = "rust-futhorc"
+version = "0.1.0"
+edition = "2024"
+rust-version =  "1.85.1"
+authors = ["David Campbell <dcampbell24@gmail.com>"]
+description = "Futhorc translator."
+# https://creativecommons.org/licenses/by-sa/4.0/
+license = "by-sa"
+repository = "https://github.com/crackalamoo/futhorc"
+readme = "README.md"
+keywords = ["futhorc", "runes"]
+categories = ["text-processing", "wasm"]
+
+[dependencies]
+anyhow = "1"
+smallvec = "1.15.1"
+
+# js engine only
+wasm-bindgen = { version = "0.2", optional = true }
+
+[features]
+default = ["zip"]
+debug = []
+js = ["dep:wasm-bindgen"]
+zip = []
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[lints.clippy]
+cargo = "deny"
+complexity = "deny"
+correctness = "deny"
+pedantic = "deny"
+perf = "deny"
+style = "deny"
+suspicious = "deny"
+
+multiple_crate_versions = { level = "allow", priority = 1 }
