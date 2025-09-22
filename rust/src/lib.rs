@@ -7,6 +7,7 @@ pub type CollapsedKey = smallvec::SmallVec<[u16; 32]>;
 
 pub type Ambiguities = SmallVec<[u16; 4]>;
 
+#[allow(clippy::struct_field_names)]
 #[derive(Default, Debug)]
 struct BuildState {
     seen_f: u32,
@@ -165,6 +166,7 @@ fn translate_to_runic_2(string: &str) -> String {
     string
 }
 
+#[must_use]
 pub fn disambiguate(ipa: &str, ambiguities: &AmbiguityMap) -> String {
     // 1. Replace all F, V, S, Z with their lowercase equivalents.
     let ipa_no_stress = remove_stress_markers(ipa);
@@ -182,7 +184,7 @@ pub fn disambiguate(ipa: &str, ambiguities: &AmbiguityMap) -> String {
     let collapsed = collapse_key(&ipa_chars.iter().collect::<String>());
     if let Some(ambs) = ambiguities.get(&collapsed) {
         // 2. Set all ambiguous /f/ to F, all ambiguous /s/ to S.
-        for &idx in ambs.iter() {
+        for &idx in ambs {
             if (idx as usize) < ipa_chars.len() {
                 match ipa_chars[idx as usize] {
                     'f' => ipa_chars[idx as usize] = 'F',
@@ -193,7 +195,7 @@ pub fn disambiguate(ipa: &str, ambiguities: &AmbiguityMap) -> String {
         }
     }
     // 3. Replace all remaining /f/ with /v/, all remaining /s/ with /z/.
-    for c in ipa_chars.iter_mut() {
+    for c in &mut ipa_chars {
         match *c {
             'f' => *c = 'v',
             's' => *c = 'z',
@@ -201,7 +203,7 @@ pub fn disambiguate(ipa: &str, ambiguities: &AmbiguityMap) -> String {
         }
     }
     // 4. Replace F and S with their lowercase equivalents.
-    for c in ipa_chars.iter_mut() {
+    for c in &mut ipa_chars {
         match *c {
             'F' => *c = 'f',
             'S' => *c = 's',
@@ -211,7 +213,8 @@ pub fn disambiguate(ipa: &str, ambiguities: &AmbiguityMap) -> String {
     ipa_chars.iter().collect()
 }
 
-pub fn collapse_key(seq: &String) -> CollapsedKey {
+#[must_use]
+pub fn collapse_key(seq: &str) -> CollapsedKey {
     let mut key = CollapsedKey::new();
     key.reserve(seq.len());
     // let mut key: CollapsedKey = SmallVec::new();
@@ -225,7 +228,7 @@ pub fn collapse_key(seq: &String) -> CollapsedKey {
     key
 }
 
-fn ingest_word(word: String) -> BuildState {
+fn ingest_word(word: &str) -> BuildState {
     let mut st = BuildState::default();
     for (i, ch) in word.chars().enumerate() {
         if i >= 32 {
@@ -243,13 +246,17 @@ fn ingest_word(word: String) -> BuildState {
     st
 }
 
-pub fn detect_ambiguities(english_to_ipa: &HashMap<String, String>) -> AmbiguityMap {
+#[allow(clippy::cast_possible_truncation)]
+#[must_use]
+pub fn detect_ambiguities<S: ::std::hash::BuildHasher>(
+    english_to_ipa: &HashMap<String, String, S>,
+) -> AmbiguityMap {
     let mut full_dict: HashMap<CollapsedKey, BuildState> =
         HashMap::with_capacity(english_to_ipa.len());
-    for (_eng, ipa) in english_to_ipa.iter() {
+    for ipa in english_to_ipa.values() {
         let ipa_no_stress = remove_stress_markers(ipa);
         let collapsed = collapse_key(&ipa_no_stress);
-        let st = ingest_word(ipa_no_stress);
+        let st = ingest_word(&ipa_no_stress);
         let entry = full_dict.entry(collapsed).or_default();
         entry.seen_f |= st.seen_f;
         entry.seen_v |= st.seen_v;
