@@ -256,6 +256,7 @@ impl Default for EnglishToRunes {
     }
 }
 
+#[allow(clippy::too_many_lines)]
 fn handle_ipa_word(ipa_words: &mut Vec<(String, bool)>, ipa_word: &str, word: &str) {
     if word.chars().count() == 1 {
         let ch = word.chars().next().unwrap();
