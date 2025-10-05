@@ -229,7 +229,7 @@ impl Default for EnglishToRunes {
         english_to_ipa.insert("isn't".to_string(), "ɪznt".to_string());
         english_to_ipa.insert("didn't".to_string(), "dɪdnt".to_string());
         english_to_ipa.insert("doesn't".to_string(), "dʌznt".to_string());
-        english_to_ipa.insert("shouldn't".to_string(), "ʃʊdənt".to_string());
+        english_to_ipa.insert("shouldn't".to_string(), "ʃʊdnt".to_string());
         english_to_ipa.insert("couldn't".to_string(), "kʊdnt".to_string());
         english_to_ipa.insert("wouldn't".to_string(), "wʊdnt".to_string());
         english_to_ipa.insert("i'm".to_string(), "aɪ'm".to_string());
@@ -246,6 +246,8 @@ impl Default for EnglishToRunes {
         english_to_ipa.insert("very".to_string(), "ᚠᛖᚱᛁ".to_string());
         english_to_ipa.insert("fire".to_string(), "fajɹ".to_string());
         english_to_ipa.insert("our".to_string(), "awɹ".to_string());
+        english_to_ipa.insert("ours".to_string(), "awɹz".to_string());
+        english_to_ipa.insert("runic".to_string(), "ɹunɪk".to_string());
 
         let ambiguity_map = detect_ambiguities(&english_to_ipa);
 
@@ -714,19 +716,19 @@ When we have shuffled off this mortal coil,
 Must give us pause.
 
 My translation:
-ᛏᚣ᛫ᛒᛁ,᛫ᛟᚱ᛫ᚾᚪᛏ᛫ᛏᚣ᛫ᛒᛁ,᛫ᚦᚫᛏ᛫ᛁᛋ᛫ᚦᛖ᛫ᚳᚹᛖᛋᛋᚳᚻᚢᚾ:
-ᚹᛖᚦᚢᚱ᛫'ᛏᛁᛋ᛫ᚾᚩᛒᛚᚢᚱ᛫ᛁᚾ᛫ᚦᛖ᛫ᛗᛁᚾᛞ᛫ᛏᚣ᛫ᛋᛋᚢᚠᚠᚢᚱ
-ᚦᛖ᛫ᛋᛋᛚᛁᛝᛋ᛫ᚢᚾᛞ᛫ᚫᚱᚩᛋ᛫ᚢᚠ᛫ᚪᚹᛏᚱᛠᚷᚻᚢᛋᛋ᛫ᚠᚠᛟᚱᚳᚻᚢᚾ,
-ᛟᚱ᛫ᛏᚣ᛫ᛏᛠᚳ᛫ᚪᚱᛗᛋ᛫ᚢᚷᛖᚾᛋᛋᛏ᛫ᚪ᛫ᛋᛋᛁ᛫ᚢᚠ᛫ᛏᚱᚢᛒᚢᛚᛋ,
-ᚢᚾᛞ᛫ᛒᛁ᛫ᚢᛈᚩᛋᛁᛝ᛫ᛖᚾᛞ᛫ᚦᛖᛗ:᛫ᛏᚣ᛫ᛞᛁ,᛫ᛏᚣ᛫ᛋᛋᛚᛁᛁᛈ
-ᚾᚩ᛫ᛗᛟᚱ;᛫ᚢᚾᛞ᛫ᛒᛁ᛫ᚪ᛫ᛋᛋᛚᛁᛁᛈ,᛫ᛏᚣ᛫ᛋᛋᛠ᛫ᚹᛁ᛫ᛖᚾᛞ
-ᚦᛖ᛫ᚻᚪᚱᛏ-ᛠᚳ,᛫ᚢᚾᛞ᛫ᚦᛖ᛫ᚦᚪᚹᛋᚢᚾᛞ᛫ᚾᚫᚳᚻᚢᚱᚢᛚ᛫ᛋᚻᚪᚳᛋᛋ
-ᚦᚫᛏ᛫ᚠᚠᛚᛖᛋᚻ᛫ᛁᛋ᛫ᛖᚱ᛫ᛏᚣ?᛫'ᛏᛁᛋ᛫ᚪ᛫ᚳᚪᚾᛋᛋᚢᛗᛠᛋᚻᚢᚾ
-ᛞᛁᚠᚪᚹᛏᛚᛁ᛫ᛏᚣ᛫ᛒᛁ᛫ᚹᛁᛋᚻᛏ.᛫ᛏᚣ᛫ᛞᛁ,᛫ᛏᚣ᛫ᛋᛋᛚᛁᛁᛈ,
-ᛏᚣ᛫ᛋᛋᛚᛁᛁᛈ,᛫ᛈᚢᚱᚳᚻᚫᚾᛋᛋ᛫ᛏᚣ᛫ᛞᚱᛁᛁᛗ;᛫ᛁ,᛫ᚦᛖᚱ'ᛋ᛫ᚦᛖ᛫ᚱᚢᛒ,
-ᚠᚠᛟᚱ᛫ᛁᚾ᛫ᚦᚫᛏ᛫ᛋᛋᛚᛁᛁᛈ᛫ᚢᚠ᛫ᛞᛖᚦ,᛫ᚹᚢᛏ᛫ᛞᚱᛁᛁᛗᛋ᛫ᛗᛠ᛫ᚳᚢᛗ,
-ᚹᛖᚾ᛫ᚹᛁ᛫ᚻᚫᚠ᛫ᛋᚻᚢᚠᚠᚢᛚᛞ᛫ᛟᚠᚠ᛫ᚦᛁᛋᛋ᛫ᛗᛟᚱᛏᚢᛚ᛫ᚳᛟᛄᛚ,
-ᛗᚢᛋᛋᛏ᛫ᚷᛁᚠ᛫ᚢᛋᛋ᛫ᛈᛟᛋ.
+ᛏᚣ᛫ᛒᛁ, ᚩᚱ᛫ᚾᛟᛏ᛫ᛏᚣ᛫ᛒᛁ, ᚦᚫᛏ᛫ᛁᛋ᛫ᚦᛖ᛫ᛢᛖᛋᚳᚻᚢᚾ:
+ᚹᛖᚦᚢᚱ᛫'ᛏᛁᛋ᛫ᚾᚩᛒᛚᚢᚱ᛫ᛁᚾ᛫ᚦᛖ᛫ᛗᛡᚾᛞ᛫ᛏᚣ᛫ᛋᚢᚠᚢᚱ
+ᚦᛖ᛫ᛋᛚᛁᛝᛋ᛫ᚫᚾᛞ᛫ᚫᚱᚩᛋ᛫ᛟᚠ᛫ᚪᚹᛏᚱᛠᚷᚻᚢᛋ᛫ᚠᚩᚱᚳᚻᚢᚾ,
+ᚩᚱ᛫ᛏᚣ᛫ᛏᛠᚳ᛫ᚪᚱᛗᛋ᛫ᚢᚷᛖᚾᛥ᛫ᚢ᛫ᛋᛁ᛫ᛟᚠ᛫ᛏᚱᚢᛒᚢᛚᛋ,
+ᚫᚾᛞ᛫ᛒᛡ᛫ᚢᛈᚩᛋᛁᛝ᛫ᛖᚾᛞ᛫ᚦᛖᛗ: ᛏᚣ᛫ᛞᛡ, ᛏᚣ᛫ᛋᛚᛁᛁᛈ
+ᚾᚩ᛫ᛗᚩᚱ; ᚫᚾᛞ᛫ᛒᛡ᛫ᚢ᛫ᛋᛚᛁᛁᛈ, ᛏᚣ᛫ᛋᛠ᛫ᚹᛁ᛫ᛖᚾᛞ
+ᚦᛖ᛫ᚻᚪᚱᛏ-ᛠᚳ, ᚫᚾᛞ᛫ᚦᛖ᛫ᚦᚪᚹᛋᚢᚾᛞ᛫ᚾᚫᚳᚻᚢᚱᚢᛚ᛫ᛋᚻᛟᚳᛋ
+ᚦᚫᛏ᛫ᚠᛚᛖᛋᚻ᛫ᛁᛋ᛫ᛠᚱ᛫ᛏᚣ? 'ᛏᛁᛋ᛫ᚢ᛫ᚳᛟᚾᛋᚢᛗᛠᛋᚻᚢᚾ
+ᛞᛁᚠᚪᚹᛏᛚᛁ᛫ᛏᚣ᛫ᛒᛁ᛫ᚹᛁᛋᚻᛞ. ᛏᚣ᛫ᛞᛡ, ᛏᚣ᛫ᛋᛚᛁᛁᛈ,
+ᛏᚣ᛫ᛋᛚᛁᛁᛈ, ᛈᚢᚱᚳᚻᚫᚾᛋ᛫ᛏᚣ᛫ᛞᚱᛁᛁᛗ; ᛡ, ᚦᛠᚱ'ᛋ᛫ᚦᛖ᛫ᚱᚢᛒ,
+ᚠᚩᚱ᛫ᛁᚾ᛫ᚦᚫᛏ᛫ᛋᛚᛁᛁᛈ᛫ᛟᚠ᛫ᛞᛖᚦ, ᚹᚢᛏ᛫ᛞᚱᛁᛁᛗᛋ᛫ᛗᛠ᛫ᚳᚢᛗ,
+ᚹᛖᚾ᛫ᚹᛁ᛫ᚻᚫᚠ᛫ᛋᚻᚢᚠᚠᚢᛚᛞ᛫ᛟᚠᚠ᛫ᚦᛁᛋ᛫ᛗᚩᚱᛏᚢᛚ᛫ᚳᚩᛁᛚ,
+ᛗᚢᛥ᛫ᚷᛁᚠ᛫ᚢᛋ᛫ᛈᛟᛋ.
 
 The original translation:
 ᛏᚣ᛫ᛒᛁ, ᚪᚱ᛫ᚾᛟᛏ᛫ᛏᚣ᛫ᛒᛁ, ᚦᚫᛏ᛫ᛁᛋ᛫ᚦᛖ᛫ᚳᚹᛖᛋᚳᚻᚢᚾ:
